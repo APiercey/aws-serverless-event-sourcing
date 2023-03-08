@@ -3,7 +3,8 @@
 module Events
   class CartOpened
     NAME = "CartOpened"
-    attr_reader :name, :shopping_cart_uuid
+
+    attr_reader :shopping_cart_uuid
 
     def initialize(shopping_cart_uuid)
       @shopping_cart_uuid = shopping_cart_uuid
