@@ -32,7 +32,6 @@ class ShoppingCartRepo
   end
 
   def store(shopping_cart)
-    puts shopping_cart.inspect
     @client.update_item({
       table_name: 'ShoppingCarts',
       key: {
@@ -44,7 +43,7 @@ class ShoppingCartRepo
       },
       expression_attribute_values: {
         ":empty_list" => [],
-        ":new_events" => shopping_cart.events.map { |event| { Name: event.class::NAME, Data: event.to_h } }
+        ":new_events" => shopping_cart.changes.map { |event| { Name: event.class::NAME, Data: event.to_h } }
       },
     })
 
