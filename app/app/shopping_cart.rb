@@ -3,6 +3,7 @@
 require_relative './events/cart_opened'
 require_relative './events/item_added'
 require_relative './shared/aggregate'
+require_relative './domain_errors'
 
 class ShoppingCart
   include Aggregate
@@ -25,5 +26,12 @@ class ShoppingCart
 
   on Events::ItemAdded do |event|
     @items = @items.append(event.item_name)
+  end
+
+  def to_h
+    {
+      uuid: @uuid,
+      items: items
+    }
   end
 end

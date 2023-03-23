@@ -11,9 +11,7 @@ module Events
     end
 
     def to_h
-      {
-        shopping_cart_uuid: @shopping_cart_uuid
-      }
+      { shopping_cart_uuid: @shopping_cart_uuid }
     end
   end
 end

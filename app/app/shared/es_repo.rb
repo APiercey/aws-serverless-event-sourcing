@@ -3,8 +3,8 @@
 require 'json'
 
 class EsRepo
-  def initialize(client, event_builder, table_name, aggregate_class)
-    @client = client
+  def initialize(dynamodb_client, event_builder, table_name, aggregate_class)
+    @dynamodb_client = dynamodb_client
     @event_builder = event_builder
     @table_name = table_name
     @aggregate_class = aggregate_class
@@ -40,7 +40,7 @@ class EsRepo
   private
 
   def fetch_aggregate_record(uuid)
-    @client.get_item({
+    @dynamodb_client.get_item({
       table_name: @table_name,
       key: { Uuid: uuid }
     }).item
@@ -49,7 +49,7 @@ class EsRepo
   def update_aggregate_record(agg)
     new_events = agg.changes.map { |event| { Name: event.class::NAME, Data: event.to_h } }
 
-    @client.update_item({
+    @dynamodb_client.update_item({
       table_name: @table_name,
       key: {
         Uuid: agg.uuid
