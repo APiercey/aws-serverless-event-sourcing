@@ -3,11 +3,11 @@
 # Function
 #
 ###
-module "dynamo_to_kinesis_connector" {
+module "dynamo_to_kinesis_adapter" {
   source = "../lambda"
 
-  source_dir = "event_source_table/scripts/dynamo_to_kinesis_connector"
-  name = "${var.table_name}_to_kinesis_connector"
+  source_dir = "event_source_table/scripts/dynamo_to_kinesis_adapter"
+  name = "${var.table_name}_to_kinesis_adapter"
   runtime = "ruby2.7"
   handler = "main.handler"
 
@@ -27,7 +27,7 @@ module "dynamo_to_kinesis_connector" {
 
 resource "aws_lambda_event_source_mapping" "example" {
   event_source_arn  = aws_dynamodb_table.es_table.stream_arn
-  function_name     = module.dynamo_to_kinesis_connector.function_arn
+  function_name     = module.dynamo_to_kinesis_adapter.function_arn
   starting_position = "LATEST"
 }
 
