@@ -8,10 +8,10 @@ require_relative '../../app/domain_services/get_cart'
 
 def handler(event:, context:)
   dynamo_db_client = Aws::DynamoDB::Client.new
-  shopping_cart_repo = ShoppingCartRepo.new(dynamo_db_client)
-  shopping_cart = DomainServices::GetCart
-    .new(shopping_cart_repo)
-    .call(event["ShoppingCartID"])
+  event_builder = Events::Builder.new
+  shopping_cart_repo = ShoppingCartRepo.new(dynamo_db_client, event_builder, "ShoppingCarts", ShoppingCart)
 
-  { event: shopping_cart.inspect, context: JSON.generate(context.inspect) }
+  shopping_cart = DomainServices::GetCart.new(shopping_cart_repo).call(event["ShoppingCartID"])
+
+  { event: shopping_cart.to_h, context: JSON.generate(context.inspect) }
 end

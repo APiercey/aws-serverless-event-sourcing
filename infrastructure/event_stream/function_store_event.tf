@@ -9,7 +9,7 @@ module "function_store_event" {
   source_dir = "event_stream/scripts/store_events"
   name = "store-events"
   runtime = "ruby2.7"
-  handler = "/main.handler"
+  handler = "main.handler"
 
   custom_policy_json = data.aws_iam_policy_document.s3_logger_permissions_data.json
 
