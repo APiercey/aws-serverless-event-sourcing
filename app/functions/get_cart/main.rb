@@ -11,7 +11,11 @@ def handler(event:, context:)
   event_builder = Events::Builder.new
   shopping_cart_repo = ShoppingCartRepo.new(dynamo_db_client, event_builder, "ShoppingCarts", ShoppingCart)
 
-  shopping_cart = DomainServices::GetCart.new(shopping_cart_repo).call(event["ShoppingCartID"])
+  shopping_cart = DomainServices::GetCart
+    .new(shopping_cart_repo)
+    .call(event["ShoppingCartID"])
 
-  { event: shopping_cart.to_h, context: JSON.generate(context.inspect) }
+  result = shopping_cart ? shopping_cart.to_h : nil
+
+  { event: result, context: JSON.generate(context.inspect) }
 end

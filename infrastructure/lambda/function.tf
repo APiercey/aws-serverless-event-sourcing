@@ -14,6 +14,8 @@ resource "aws_lambda_function" "main" {
 
   runtime = var.runtime
 
+  timeout = 900
+
   environment {
     variables = var.variables
   }

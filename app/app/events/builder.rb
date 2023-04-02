@@ -9,6 +9,8 @@ module Events
         Events::CartOpened.new(data.fetch("shopping_cart_uuid"))
       when "ItemAdded"
         Events::ItemAdded.new(data.fetch("shopping_cart_uuid"), data.fetch("item_name"))
+      when "CartClosed"
+        Events::CartClosed.new(data.fetch("shopping_cart_uuid"))
       else
         nil
       end

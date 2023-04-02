@@ -1,4 +1,5 @@
 require 'aws-sdk-lambda'
+require 'aws-sdk-s3'
 require "base64"
 
 def lambda_client
@@ -23,4 +24,12 @@ def call_function(name, payload)
   })
 
   JSON.parse(resp.payload.read)
+end
+
+def count_events
+  s3 = Aws::S3::Client.new
+
+  all_stream_bucket = s3.list_buckets.buckets.find { |bucket| bucket.name.match? /all-/ }
+  s3_bucket = Aws::S3::Resource.new.bucket(all_stream_bucket.name)
+  s3_bucket.objects.count
 end

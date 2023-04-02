@@ -1,13 +1,14 @@
-variable "kinesis_arn" {
-  type = string
+variable "lambda" {
+  type = object({
+    role_name = string
+    function_arn = string
+    function_name = string
+  })
 }
 
-variable "lambda_name" {
-  type = string
+variable "event_stream" {
+  type = object({
+    bucket_name = string
+    stream_arn = string
+  })
 }
-
-variable "lambda_role_name" {
-  type = string
-}
-
-

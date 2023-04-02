@@ -3,6 +3,10 @@ output "stream_name" {
 }
 
 # Is this the same as above?
-# output "stream_arn" {
-#   value = aws_kinesis_stream.all-event.arn
-# }
+output "stream_arn" {
+  value = aws_kinesis_stream.all-event-stream.arn
+}
+
+output "bucket_name" {
+  value = aws_s3_bucket.event-storage.id
+}
