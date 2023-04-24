@@ -26,7 +26,7 @@ class ShoppingCart
   end
 
   on Events::ItemAdded do |event|
-    @items = @items.append(event.item_name)
+    @items.append(event.item_name)
   end
 
   on Events::CartClosed do |event|

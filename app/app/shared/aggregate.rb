@@ -4,6 +4,7 @@ module Aggregate
   def self.included(base)
     base.class_eval do
       attr_reader :uuid
+      attr_writer :version
 
       def self.on(event_class, &block)
         define_method "apply_#{event_class::NAME}", &block

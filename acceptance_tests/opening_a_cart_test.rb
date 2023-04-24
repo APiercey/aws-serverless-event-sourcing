@@ -1,19 +1,18 @@
 require_relative './mt.rb'
 require_relative './helpers.rb'
 
+require 'pry'
 
 MT.test "Open Cart" do
-  function_names = list_functions.map(&:function_name)
 
-  MT.assert("open_cart exists", function_names, :contains, "open_cart")
+  result = call_function("open_cart", {})
+  cart_uuid = result.dig("event", "uuid")
 
-  uuid = call_function("open_cart", {}).dig("event", "uuid")
+  puts result.inspect
 
-  MT.assert("get_cart exists", function_names, :contains, "get_cart")
+  MT.assert("open_cart provides a cart UUID", cart_uuid, :is_a, String)
 
-  expected_uuid = call_function("open_cart", {}).dig("event", "uuid")
+  uuid = call_function("get_cart", {"ShoppingCartID" => cart_uuid}).dig("event", "uuid")
 
-  uuid = call_function("get_cart", {"ShoppingCartID" => expected_uuid}).dig("event", "uuid")
-
-  MT.assert("get_cart provides correct Cart UUID", uuid, :equals, expected_uuid)
+  MT.assert("get_cart provides correct Cart UUID", uuid, :equals, cart_uuid)
 end

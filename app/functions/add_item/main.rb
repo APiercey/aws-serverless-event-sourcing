@@ -9,8 +9,7 @@ require_relative '../../app/domain_services/add_item'
 
 def handler(event:, context:)
   dynamo_db_client = Aws::DynamoDB::Client.new
-  event_builder = Events::Builder.new
-  shopping_cart_repo = ShoppingCartRepo.new(dynamo_db_client, event_builder, "ShoppingCarts", ShoppingCart)
+  shopping_cart_repo = ShoppingCartRepo.new(dynamo_db_client)
 
   shopping_cart = DomainServices::AddItem
     .new(shopping_cart_repo)

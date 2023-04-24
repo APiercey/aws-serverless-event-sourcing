@@ -2,8 +2,8 @@ require_relative './cart_opened.rb'
 require_relative './item_added.rb'
 
 module Events
-  class Builder
-    def build(name, data)
+  module Builder
+    def self.build(name, data)
       case name
       when "CartOpened"
         Events::CartOpened.new(data.fetch("shopping_cart_uuid"))
