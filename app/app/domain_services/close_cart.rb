@@ -3,12 +3,12 @@
 require_relative '../shopping_cart'
 
 module DomainServices
-  class AddItem
+  class CloseCart
     def initialize(shopping_cart_repo)
       @shopping_cart_repo = shopping_cart_repo
     end
 
-    def call(shopping_cart_uuid, item_name)
+    def call(shopping_cart_uuid)
       shopping_cart = @shopping_cart_repo.fetch(shopping_cart_uuid)
       shopping_cart.close
 

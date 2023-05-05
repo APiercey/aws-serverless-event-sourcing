@@ -21,6 +21,10 @@ class ShoppingCart
     enqueue(Events::ItemAdded.new(uuid, item_name))
   end
 
+  def close
+    enqueue(Events::CartClosed.new(uuid))
+  end
+
   on Events::CartOpened do |event|
     @uuid = event.shopping_cart_uuid
   end
@@ -30,7 +34,7 @@ class ShoppingCart
   end
 
   on Events::CartClosed do |event|
-    uuid = nil
+    @uuid = nil
   end
 
   def to_h

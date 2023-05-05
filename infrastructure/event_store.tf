@@ -1,4 +1,4 @@
-module "all_event_stream" {
-  source = "./event_stream"
-  name   = "all"
+module "event-store" {
+  source = "./event_store"
+  name   = "scd"
 }

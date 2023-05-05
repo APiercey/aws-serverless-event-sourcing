@@ -6,16 +6,15 @@
 module "dynamo_to_kinesis_adapter" {
   source = "../lambda"
 
-  source_dir = "event_source_table/scripts/dynamo_to_kinesis_adapter"
-  name = "${var.table_name}_to_kinesis_adapter"
+  source_dir = "event_store/scripts/dynamo_to_kinesis_adapter"
+  name = "${var.name}_to_kinesis_adapter"
   runtime = "ruby2.7"
   handler = "main.handler"
 
   custom_policy_json = data.aws_iam_policy_document.dynamo_to_kinesis_lambda_policy_data.json
 
   variables = {
-    # kinesis_event_stream = aws_kinesis_stream.all-event-stream.name
-    kinesis_event_stream = var.kinesis_event_stream_name
+    kinesis_event_stream = aws_kinesis_stream.all-event-stream.name
   }
 }
 

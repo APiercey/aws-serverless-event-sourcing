@@ -6,7 +6,7 @@
 module "function_store_event" {
   source = "../lambda"
 
-  source_dir = "event_stream/scripts/store_events"
+  source_dir = "event_store/scripts/store_events"
   name = "store-events"
   runtime = "ruby2.7"
   handler = "main.handler"

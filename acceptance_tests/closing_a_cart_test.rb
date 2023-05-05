@@ -5,7 +5,11 @@ require_relative './helpers.rb'
 MT.test "Closing a Cart" do
   cart_uuid = call_function("open_cart", {}).dig("event", "uuid")
 
-  uuid = call_function("close_cart", {"ShoppingCartID" => cart_uuid}).dig("event", "uuid")
+  resp = call_function("close_cart", {"ShoppingCartID" => cart_uuid})
+
+  puts resp.inspect
+
+    uuid = resp.dig("event", "uuid")
 
   MT.assert("close_cart closes the cart", uuid, :is_nil)
 
