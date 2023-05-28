@@ -3,45 +3,35 @@
 # Function
 #
 ###
-module "s3_event_logger" {
-  source = "./lambda"
+#module "event_logger" {
+#  source = "./lambda"
 
-  source_dir = "../app"
-  name = "s3_event_logger"
-  runtime = "ruby2.7"
-  handler = "functions/s3_event_logger/main.handler"
+#  source_dir = "../app"
+#  name       = "event-logger"
+#  runtime    = "ruby2.7"
+#  handler    = "functions/event_logger/main.handler"
 
-  custom_policy_json = data.aws_iam_policy_document.s3_logger_permissions_data.json
+#  variables = {
+#    event_storage_bucket_name = module.all-event-stream.bucket_name
+#  }
+#}
 
-  variables = {
-    s3_bucket_name = aws_s3_bucket.event-log.id
-  }
-}
+####
+##
+## Triggers
+##
+####
 
-###
-#
-# Triggers
-#
-###
-module "s3_event_logger_kinesis_trigger" {
-  source = "./event_stream_handler"
-
-  kinesis_arn = aws_kinesis_stream.all-event-stream.arn
-  lambda_name = module.s3_event_logger.function_name
-  lambda_role_name = module.s3_event_logger.role_name
-}
+#TODO : Fix this event handler
+#module "event_logger_event_handler" {
+#  source       = "./event_stream_handler"
+#  lambda       = module.event_logger
+#  event_stream = module.all-event-stream
+#}
 
 ###
 #
 # IAM Permissions
 #
 ###
-data "aws_iam_policy_document" "s3_logger_permissions_data" {
-  statement {
-   effect = "Allow"
 
-   actions = ["s3:*"]
-
-   resources = ["arn:aws:s3::*:*"]
-  }
-}

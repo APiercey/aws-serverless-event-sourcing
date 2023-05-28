@@ -2,15 +2,17 @@
 
 require_relative './events/cart_opened'
 require_relative './events/item_added'
+require_relative './events/cart_closed'
+require_relative './shared/aggregate'
+require_relative './domain_errors'
 
 class ShoppingCart
-  attr_reader :uuid, :items
-  attr_reader :events
+  include Aggregate
+
+  attr_reader :items
 
   def initialize(uuid = nil)
-    @uuid = uuid
     @items = []
-    clear_events
 
     enqueue(Events::CartOpened.new(uuid)) unless uuid.nil?
   end
@@ -19,23 +21,26 @@ class ShoppingCart
     enqueue(Events::ItemAdded.new(uuid, item_name))
   end
 
-  def apply(event)
-    case event.class.to_s
-    when 'Events::CartOpened'
-      @uuid = event.shopping_cart_uuid
-    when 'Events::ItemAdded'
-      @items = @items.append(event.item_name)
-    end
+  def close
+    enqueue(Events::CartClosed.new(uuid))
   end
 
-  def clear_events
-    @events = []
+  on Events::CartOpened do |event|
+    @uuid = event.shopping_cart_uuid
   end
 
-  private
+  on Events::ItemAdded do |event|
+    @items.append(event.item_name)
+  end
 
-  def enqueue(event)
-    apply(event)
-    events.append(event)
+  on Events::CartClosed do |event|
+    @uuid = nil
+  end
+
+  def to_h
+    {
+      uuid: @uuid,
+      items: items
+    }
   end
 end

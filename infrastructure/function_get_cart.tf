@@ -7,9 +7,9 @@ module "get_cart" {
   source = "./lambda"
 
   source_dir = "../app"
-  name = "get_cart"
-  runtime = "ruby2.7"
-  handler = "functions/get_cart/main.handler"
+  name       = "get_cart"
+  runtime    = "ruby2.7"
+  handler    = "functions/get_cart/main.handler"
 
   custom_policy_json = data.aws_iam_policy_document.get_cart_lambda_policy_data.json
 
@@ -32,10 +32,10 @@ module "get_cart" {
 
 data "aws_iam_policy_document" "get_cart_lambda_policy_data" {
   statement {
-   effect = "Allow"
+    effect = "Allow"
 
-   actions = ["dynamodb:*"]
+    actions = ["dynamodb:*"]
 
-   resources = ["arn:aws:dynamodb:*:*:*"]
+    resources = ["arn:aws:dynamodb:*:*:*"]
   }
 }

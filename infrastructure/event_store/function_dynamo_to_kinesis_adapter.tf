@@ -3,19 +3,18 @@
 # Function
 #
 ###
-module "dynamo_to_kinesis_connector" {
+module "dynamo_to_kinesis_adapter" {
   source = "../lambda"
 
-  source_dir = "event_source_table/scripts/dynamo_to_kinesis_connector"
-  name = "${var.table_name}_to_kinesis_connector"
+  source_dir = "event_store/scripts/dynamo_to_kinesis_adapter"
+  name = "${var.name}_to_kinesis_adapter"
   runtime = "ruby2.7"
   handler = "main.handler"
 
   custom_policy_json = data.aws_iam_policy_document.dynamo_to_kinesis_lambda_policy_data.json
 
   variables = {
-    # kinesis_event_stream = aws_kinesis_stream.all-event-stream.name
-    kinesis_event_stream = var.kinesis_event_stream_name
+    kinesis_event_stream = aws_kinesis_stream.all-event-stream.name
   }
 }
 
@@ -27,7 +26,7 @@ module "dynamo_to_kinesis_connector" {
 
 resource "aws_lambda_event_source_mapping" "example" {
   event_source_arn  = aws_dynamodb_table.es_table.stream_arn
-  function_name     = module.dynamo_to_kinesis_connector.function_arn
+  function_name     = module.dynamo_to_kinesis_adapter.function_arn
   starting_position = "LATEST"
 }
 

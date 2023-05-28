@@ -3,15 +3,15 @@
 # Function
 #
 ###
-module "add_item" {
+module "close_cart" {
   source = "./lambda"
 
   source_dir = "../app"
-  name       = "add_item"
+  name       = "close_cart"
   runtime    = "ruby2.7"
-  handler    = "functions/add_item/main.handler"
+  handler    = "functions/close_cart/main.handler"
 
-  custom_policy_json = data.aws_iam_policy_document.add_item_lambda_policy_data.json
+  custom_policy_json = data.aws_iam_policy_document.close_cart_lambda_policy_data.json
 
   variables = {}
 }
@@ -30,7 +30,7 @@ module "add_item" {
 #
 ###
 
-data "aws_iam_policy_document" "add_item_lambda_policy_data" {
+data "aws_iam_policy_document" "close_cart_lambda_policy_data" {
   statement {
     effect = "Allow"
 

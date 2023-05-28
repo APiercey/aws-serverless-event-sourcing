@@ -22,9 +22,9 @@ end
 def handler(event:, context:)
   kinesis_client = Aws::Kinesis::Client.new
 
-  event_matrix = pluck_new_events(event)
+  new_events = pluck_new_events(event)
 
-  event_matrix.each do |event|
+  new_events.each do |event|
     kinesis_client.put_record(
       stream_name: ENV['kinesis_event_stream'],
       data: JSON.generate(event),
@@ -32,5 +32,5 @@ def handler(event:, context:)
     )
   end
 
-  { event: JSON.generate(event_matrix), context: JSON.generate(context.inspect) }
+  { event: JSON.generate(new_events), context: JSON.generate(context.inspect) }
 end

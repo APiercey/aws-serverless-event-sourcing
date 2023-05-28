@@ -2,6 +2,7 @@
 
 require 'json'
 require 'base64'
+require 'date'
 require 'aws-sdk-s3'
 
 def pluck_kinesis_change_events(event)

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module Events
-  class CartOpened
-    NAME = "CartOpened"
-
+  class CartClosed
+    NAME = "CartClosed"
     attr_reader :shopping_cart_uuid
 
     def initialize(shopping_cart_uuid)
